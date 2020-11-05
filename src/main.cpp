@@ -1,26 +1,44 @@
 #include <Arduino.h>
 
-#define ReUnTrig  13
-#define ReUnEch   12
+#define reUnTrig    13
+#define reUnEch     12
 
-#define LiUnTrig  11
-#define LiUnEch   10
+#define liUnTrig    11
+#define liUnEch     10
 
-#define ReObTrig  9
-#define ReObEch   8
+#define reObTrig    9
+#define reObEch     8
 
-#define LiObTrig  6
-#define LiObEch   7
+#define liObTrig    6
+#define liObEch     7
 
-#define Speaker   5
+#define speakerPin  5
 
-String ReUnName = "ReUn";
-String LiUnName = "LiUn";
-String ReObName = "ReOb";
-String LiObName = "LiOb";
+String reUnName = "ReUn";
+String liUnName = "LiUn";
+String reObName = "ReOb";
+String liObName = "LiOb";
 
 long duration;
 int distance; 
+
+class UltraSonicSensor
+{
+  private:
+    int echoPin, trigPin;
+
+  public:
+    UltraSonicSensor(/* args */);
+    UltraSonicSensor();
+  }
+};
+ UltraSonicSensor: UltraSonicSensor(/* args */)
+{
+ UltraSonicSensor:: UltraSonicSensor()
+{
+}
+
+
 
 void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   
@@ -38,39 +56,37 @@ void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   Serial.print(UsSenName + distance + "cm");
 }
 
-void SpeakerWarning(int repitition){
+void SpeakerWarning(int repitition, int duration){
   for(int i; i <= repitition; i++){
-    digitalWrite(Speaker, HIGH);
-    delay(50);
-    digitalWrite(Speaker, LOW);
-    delay(50);
+    tone(speakerPin, 2000, duration);
+    noTone(speakerPin);
   }
 }
 
 
 void setup() {
-  pinMode(ReUnTrig, OUTPUT);
-  pinMode(ReUnEch, INPUT); 
+  pinMode(reUnTrig, OUTPUT);
+  pinMode(reUnEch, INPUT); 
 
-  pinMode(LiUnTrig, OUTPUT);
-  pinMode(LiUnEch, INPUT); 
+  pinMode(liUnTrig, OUTPUT);
+  pinMode(liUnEch, INPUT); 
 
-  pinMode(ReObTrig, OUTPUT);
-  pinMode(ReObEch, INPUT); 
+  pinMode(reObTrig, OUTPUT);
+  pinMode(reObEch, INPUT); 
 
-  pinMode(LiObTrig, OUTPUT);
-  pinMode(LiObEch, INPUT); 
+  pinMode(liObTrig, OUTPUT);
+  pinMode(liObEch, INPUT); 
 
-  pinMode(Speaker, OUTPUT);
+  pinMode(speakerPin, OUTPUT);
 
   Serial.begin(115200); 
 
-  SpeakerWarning(2);
+  SpeakerWarning(speakerPin, 50);
 }
 
 void loop(){
- UsMessung(ReObTrig, ReUnEch, ReObName);
- UsMessung(LiObTrig, LiObEch, LiObName);
- UsMessung(ReUnTrig, ReUnEch, ReUnName);
- UsMessung(LiUnTrig, LiUnEch, LiUnName);
+ UsMessung(reObTrig, reUnEch, reObName);
+ UsMessung(liObTrig, liObEch, liObName);
+ UsMessung(reUnTrig, reUnEch, reUnName);
+ UsMessung(liUnTrig, liUnEch, liUnName);
 }
