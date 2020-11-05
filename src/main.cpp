@@ -38,6 +38,14 @@ void USMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   Serial.print(UsSenName + distance + "cm");
 }
 
+void SpeakerWarning(int repitition){
+  for(int i; i <= repitition; i++){
+    digitalWrite(Speaker, HIGH);
+    delay(50);
+    digitalWrite(Speaker, LOW);
+    delay(50);
+  }
+}
 
 
 void setup() {
@@ -56,6 +64,8 @@ void setup() {
   pinMode(Speaker, OUTPUT);
 
   Serial.begin(115200); 
+
+  SpeakerWarning(2);
 }
 
 void loop(){
