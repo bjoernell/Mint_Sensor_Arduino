@@ -22,24 +22,16 @@ String liObName = "LiOb";
 long duration;
 int distance; 
 
-class UltraSonicSensor
+class UltrasonicSensor
 {
-  private:
-    int echoPin, trigPin;
-
-  public:
-    UltraSonicSensor(/* args */);
-    UltraSonicSensor();
+private:
+  
+public:
+  void SettingPinMode(int pinTrig, int pinEch){
+    pinMode(pinTrig, OUTPUT);
+    pinMode(pinEch, INPUT); 
   }
-};
- UltraSonicSensor: UltraSonicSensor(/* args */)
-{
- UltraSonicSensor:: UltraSonicSensor()
-{
-}
-
-
-
+  
 void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   
   digitalWrite(UsSenTrigVal, LOW);
@@ -47,6 +39,7 @@ void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   
   digitalWrite(UsSenTrigVal, HIGH);
   delayMicroseconds(10);
+  
   digitalWrite(UsSenTrigVal, LOW);
   
   duration = pulseIn(UsSenEchVal, HIGH);
@@ -56,6 +49,10 @@ void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   Serial.print(UsSenName + distance + "cm");
 }
 
+  UltrasonicSensor(/* args */);
+  ~UltrasonicSensor();
+};
+
 void SpeakerWarning(int repitition, int duration){
   for(int i; i <= repitition; i++){
     tone(speakerPin, 2000, duration);
@@ -63,30 +60,25 @@ void SpeakerWarning(int repitition, int duration){
   }
 }
 
+UltrasonicSensor UsLiOb;
+UltrasonicSensor UsReOb;
+UltrasonicSensor UsLiUn;
+UltrasonicSensor UsReUn;
 
 void setup() {
-  pinMode(reUnTrig, OUTPUT);
-  pinMode(reUnEch, INPUT); 
-
-  pinMode(liUnTrig, OUTPUT);
-  pinMode(liUnEch, INPUT); 
-
-  pinMode(reObTrig, OUTPUT);
-  pinMode(reObEch, INPUT); 
-
-  pinMode(liObTrig, OUTPUT);
-  pinMode(liObEch, INPUT); 
-
-  pinMode(speakerPin, OUTPUT);
-
   Serial.begin(115200); 
-
+  
   SpeakerWarning(speakerPin, 50);
+  
+  UsLiOb.SettingPinMode(liObTrig, liObEch);
+  UsReOb.SettingPinMode(reObTrig, reObEch);
+  UsLiUn.SettingPinMode(liUnTrig, liUnEch);
+  UsReUn.SettingPinMode(reUnTrig, reUnEch);
 }
 
 void loop(){
- UsMessung(reObTrig, reUnEch, reObName);
- UsMessung(liObTrig, liObEch, liObName);
- UsMessung(reUnTrig, reUnEch, reUnName);
- UsMessung(liUnTrig, liUnEch, liUnName);
+  UsReOb.UsMessung(reObTrig, reUnEch, reObName);
+  UsLiOb.UsMessung(liObTrig, liObEch, liObName);
+  UsReUn.UsMessung(reUnTrig, reUnEch, reUnName);
+  UsLiUn.UsMessung(liUnTrig, liUnEch, liUnName);
 }
