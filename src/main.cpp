@@ -22,7 +22,7 @@ String LiObName = "LiOb";
 long duration;
 int distance; 
 
-void USMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
+void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
   
   digitalWrite(UsSenTrigVal, LOW);
   delayMicroseconds(2);
@@ -69,8 +69,8 @@ void setup() {
 }
 
 void loop(){
- USMessung(ReObTrig, ReUnEch, ReObName);
- USMessung(LiObTrig, LiObEch, LiObName);
- USMessung(ReUnTrig, ReUnEch, ReUnName);
- USMessung(LiUnTrig, LiUnEch, LiUnName);
+ UsMessung(ReObTrig, ReUnEch, ReObName);
+ UsMessung(LiObTrig, LiObEch, LiObName);
+ UsMessung(ReUnTrig, ReUnEch, ReUnName);
+ UsMessung(LiUnTrig, LiUnEch, LiUnName);
 }
