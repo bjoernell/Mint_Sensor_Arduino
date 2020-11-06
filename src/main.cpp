@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <UsSen.h>
 
 #define reUnTrig    13
 #define reUnEch     12
@@ -22,36 +23,7 @@ String liObName = "LiOb";
 long duration;
 int distance; 
 
-class UltrasonicSensor
-{
-private:
-  
-public:
-  void SettingPinMode(int pinTrig, int pinEch){
-    pinMode(pinTrig, OUTPUT);
-    pinMode(pinEch, INPUT); 
-  }
-  
-void UsMessung(int UsSenTrigVal, int UsSenEchVal, String UsSenName) {
-  
-  digitalWrite(UsSenTrigVal, LOW);
-  delayMicroseconds(2);
-  
-  digitalWrite(UsSenTrigVal, HIGH);
-  delayMicroseconds(10);
-  
-  digitalWrite(UsSenTrigVal, LOW);
-  
-  duration = pulseIn(UsSenEchVal, HIGH);
-  
-  distance = duration * 0.034 / 2;
-  
-  Serial.print(UsSenName + distance + "cm");
-}
 
-  UltrasonicSensor(/* args */);
-  ~UltrasonicSensor();
-};
 
 void SpeakerWarning(int repitition, int duration){
   for(int i; i <= repitition; i++){
@@ -60,25 +32,20 @@ void SpeakerWarning(int repitition, int duration){
   }
 }
 
-UltrasonicSensor UsLiOb;
-UltrasonicSensor UsReOb;
-UltrasonicSensor UsLiUn;
-UltrasonicSensor UsReUn;
+UltrasonicSensor UsLiOb(liObTrig, liObEch, liObName);
+UltrasonicSensor UsReOb(reObTrig, reObEch, reObName);
+UltrasonicSensor UsLiUn(liUnTrig, liUnEch, liUnName);
+UltrasonicSensor UsReUn(reUnTrig, reUnEch, reUnName);
 
 void setup() {
   Serial.begin(115200); 
   
-  SpeakerWarning(speakerPin, 50);
-  
-  UsLiOb.SettingPinMode(liObTrig, liObEch);
-  UsReOb.SettingPinMode(reObTrig, reObEch);
-  UsLiUn.SettingPinMode(liUnTrig, liUnEch);
-  UsReUn.SettingPinMode(reUnTrig, reUnEch);
+  SpeakerWarning(2, 50);
 }
 
 void loop(){
-  UsReOb.UsMessung(reObTrig, reUnEch, reObName);
-  UsLiOb.UsMessung(liObTrig, liObEch, liObName);
-  UsReUn.UsMessung(reUnTrig, reUnEch, reUnName);
-  UsLiUn.UsMessung(liUnTrig, liUnEch, liUnName);
+  UsReOb.distance();
+  UsLiOb.distance();
+  UsReUn.distance();
+  UsLiUn.distance();
 }
