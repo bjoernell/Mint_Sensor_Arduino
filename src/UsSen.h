@@ -13,7 +13,7 @@ public:
     pinMode(_echo_pin, INPUT);
   };
 
-  void distance()
+  int distance()
   {
     unsigned long duration;
     double distance;
@@ -27,10 +27,13 @@ public:
     digitalWrite(_trig_pin, LOW);
 
     duration = pulseIn(_echo_pin, HIGH, 117); //117 Microsekunden = timeout zeit für 2m Entfernung
-
     distance = duration * 0.034 / 2;
-    //return distance;
-    if (distance != 0)
+    return distance;
+    
+    
+    
+
+    /*if (distance != 0)
     {
       Serial.print(_name);
       Serial.println(distance);
@@ -39,6 +42,8 @@ public:
     {
       Serial.print(_name);
       Serial.println("error");
-    }
+    }*/
   }
+
+  
 };
